@@ -1,0 +1,6 @@
+#!/bin/sh
+
+exec consul-template \
+     -consul-addr=$(echo $consul_server_ip):8500 \
+     -template "/etc/consul-templates/nginx.conf.ctmpl:/etc/nginx/conf.d/app.conf:nginx -s reload"
+
