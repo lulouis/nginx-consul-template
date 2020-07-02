@@ -3,6 +3,17 @@
 此项目参考于 https://github.com/liberalman/nginx-consul-template
 改善了Dockerfile构建逻辑，实现动态挂在服务
 
+# 安装与启动
+
+* 物理机环境IP：192.168.12.35
+* 构建镜像：docker build -t 192.168.12.35:5000/nginx-consul-template .
+* 拉取依赖的其他镜像
+* 启动集群：docker-compose up -d --scale mywebapp=3
+* 监控服务中心：http://192.168.12.35:8500/ui/#/dc1/services
+* 测试负载：http://192.168.12.35:8180/
+其中8180端口只是为了避免宿主机80端口冲突，可按你的需求修改 
+
+
 
 # 基本原理
 
@@ -54,4 +65,5 @@ https://blog.csdn.net/jek123456/article/details/78083618
 * docker-compose.yml文件中，新增参数SERVICE_NAME变量便于注册服务
 * docker-compose.yml文件中，改善expose配置，不暴露宿主机
 * docker-compose-slaver.yml文件中，新增参数SERVICE_IP，便于负载机通信
+
 

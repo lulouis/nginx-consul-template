@@ -1,25 +1,25 @@
 #backend web application, scale this with docker-compose scale web=3
-# web:
-#     image: liberalman/helloworld:latest
-#     environment:
-#       SERVICE_80_NAME: my-web-server
-#       SERVICE_TAGS: my-web-server
-#       MY_HOST: my-web-server
-#     # ports:
-#     # - "80:80"
-
 mywebapp:
-    image: node:latest
+    image: liberalman/helloworld:latest
     environment:
-        SERVICE_NAME: pos-calc-api
-        SERVICE_TAGS: pos-calc-api
-    volumes:
-        - ./pos-calc-api:/app/pos-calc-api
-    working_dir: /app/pos-calc-api/
+      SERVICE_80_NAME: my-web-server
+      SERVICE_TAGS: my-web-server
+      MY_HOST: my-web-server
     expose:
-        - "8180"
-    # restart: always
-    command: ["/bin/sh", "-c", "export NODE_ENV=prd&&node app.js"]
+        - "80"
+
+# mywebapp:
+#     image: node:latest
+#     environment:
+#         SERVICE_NAME: my-web-server
+#         SERVICE_TAGS: my-web-server
+#     volumes:
+#         - ./my-web-server:/app/my-web-server
+#     working_dir: /app/my-web-server/
+#     expose:
+#         - "8180"
+#     # restart: always
+#     command: ["/bin/sh", "-c", "export NODE_ENV=prd&&node app.js"]
 
 #load balancer will automatically update the config using consul-template
 loadbalancer:
@@ -27,7 +27,7 @@ loadbalancer:
     hostname: lb
     environment:
         - consul_server_ip=consul
-        - app_name=pos-calc-api
+        - app_name=my-web-server
     links:
     - consulserver:consul
     ports:
