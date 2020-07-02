@@ -18,7 +18,7 @@ Registrator：一个由Go语言编写的，针对docker使用的，通过检查�
 * 自身也是docker化的，可以容器方式启动
 * 用户可自定义配置，如服务TTL（time-to-live）、服务名称、服务tag等
 
-## consul 服务注册中心
+## Consul 服务注册中心
 
 Consul 是一个分布式高可用的服务发现和配置共享的软件。由 HashiCorp 公司用 Go 语言开发。
 Consul在这里用来做 docker 实例的注册与配置共享。
@@ -31,7 +31,7 @@ Consul在这里用来做 docker 实例的注册与配置共享。
 * 支持 http 和 dns 协议接口. zookeeper 的集成较为复杂, etcd 只支持 http 协议.
 * 还有一个web管理界面。
 
-# consul-template
+# Consul-template
 
 一开始构建服务发现，大多采用的是zookeeper/etcd+confd。但是复杂难用。consul-template，大概取代了confd的位置，以后可以这样etcd+confd或者consul+consul-template。
 
@@ -40,17 +40,18 @@ consul template的使用场景：consul template可以查询consul中的服务�
 consul-template提供了一个便捷的方式从consul中获取存储的值，consul-template守护进程会查询consul服务，来更新系统上指定的任何模板，当更新完成后，模板可以选择运行一些任意的命令，比如我们这里用它来更新nginx.conf这个配置文件，然后执行nginx -s reload命令，以更新路由，达到动态调节负载均衡的目的。
 
 
-(```)
+```
     consul-template和nginx必须装到一台机器，因为consul-template需要动态修改nginx配置文件
-(```)
+```
 
 # 参考资料
 https://blog.csdn.net/jek123456/article/details/78083618
 
 
 # 修改内容
-consul-template.service文件中，通过环境变量获取consul server的IP，并在Dockerfile设置了consul_server_ip环境变量参数
-docker-compose.yml文件中，新增参数SERVICE_NAME变量便于注册服务
-docker-compose.yml文件中，改善expose配置，不暴露宿主机
-docker-compose-slaver.yml文件中，新增参数SERVICE_IP，便于负载机通信
+
+* consul-template.service文件中，通过环境变量获取consul server的IP，并在Dockerfile设置了consul_server_ip环境变量参数
+* docker-compose.yml文件中，新增参数SERVICE_NAME变量便于注册服务
+* docker-compose.yml文件中，改善expose配置，不暴露宿主机
+* docker-compose-slaver.yml文件中，新增参数SERVICE_IP，便于负载机通信
 
